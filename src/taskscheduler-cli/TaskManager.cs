@@ -23,4 +23,19 @@ public class TaskSchedulerManager
             parent.DeleteFolder(folder.Name);
         }
     }
+
+    public static void AddTasks(List<TaskDefinition> tasks)
+    {
+        using var taskService = new TaskService();
+        taskService.RootFolder.RegisterTaskDefinition(
+            "MyTasks\\test",
+            tasks[0],
+            TaskCreation.CreateOrUpdate,
+            null,
+            null,
+            // task.Principal.LogonType,
+            TaskLogonType.InteractiveToken,
+            null
+        );
+    }
 }
