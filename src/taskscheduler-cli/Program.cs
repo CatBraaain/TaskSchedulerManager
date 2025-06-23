@@ -11,11 +11,7 @@ class Program
         var yamlText = File.ReadAllText("tasks.yaml");
         var tasks = deserializer.Deserialize<List<TaskInput>>(yamlText);
 
-        if (!PrivilegeManager.IsAdmin)
-        {
-            PrivilegeManager.RunAsAdmin(args);
-            Environment.Exit(0);
-        }
+        PrivilegeManager.EnsureAsAdmin(args);
 
         TaskSchedulerManager.RemoveTasks("MyTasks");
         Console.ReadLine();

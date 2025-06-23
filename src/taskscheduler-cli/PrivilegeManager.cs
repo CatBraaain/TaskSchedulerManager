@@ -3,6 +3,15 @@ using System.Security.Principal;
 
 public static class PrivilegeManager
 {
+    public static void EnsureAsAdmin(string[]? args = null)
+    {
+        if (!IsAdmin)
+        {
+            RunAsAdmin(args);
+            Environment.Exit(0);
+        }
+    }
+
     public static bool IsAdmin
     {
         get
