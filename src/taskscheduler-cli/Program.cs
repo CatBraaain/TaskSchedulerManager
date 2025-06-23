@@ -1,10 +1,23 @@
 ﻿using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-var deserializer = new DeserializerBuilder()
-    .WithNamingConvention(CamelCaseNamingConvention.Instance)
-    .Build();
-var yamlText = File.ReadAllText("tasks.yaml");
-var tasks = deserializer.Deserialize<List<Task>>(yamlText);
+class Program
+{
+    static void Main(string[] args)
+    {
+        var deserializer = new DeserializerBuilder()
+            .WithNamingConvention(CamelCaseNamingConvention.Instance)
+            .Build();
+        var yamlText = File.ReadAllText("tasks.yaml");
+        var tasks = deserializer.Deserialize<List<Task>>(yamlText);
 
-TaskSchedulerManager.RemoveTasks("MyTasks");
+        if (!PrivilegeManager.IsAdmin)
+        {
+            PrivilegeManager.RunAsAdmin(args);
+            Environment.Exit(0);
+        }
+
+        TaskSchedulerManager.RemoveTasks("MyTasks");
+        Console.ReadLine();
+    }
+}
