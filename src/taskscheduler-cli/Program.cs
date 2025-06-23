@@ -6,7 +6,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        // PrivilegeManager.EnsureAsAdmin(args);
+        PrivilegeManager.EnsureAsAdmin(args); // need admin right for editing admin's task
         var taskDtos = BuildTaskDtos("tasks.yaml");
         TaskSchedulerManager.SyncTasks(taskDtos, "MyTasks");
         // Console.ReadLine();
