@@ -1,20 +1,11 @@
 using Microsoft.Win32.TaskScheduler;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 public class TaskSchedulerManager
 {
-    public static void SyncTasks(string parentFolderName)
+    public static void SyncTasks(IEnumerable<TaskDefinition> tasks, string parentFolderName)
     {
         RemoveTasks(parentFolderName);
-
-        var deserializer = new DeserializerBuilder()
-            .WithNamingConvention(UnderscoredNamingConvention.Instance)
-            .Build();
-        var yamlText = File.ReadAllText("tasks.yaml");
-        var taskInputs = deserializer.Deserialize<List<TaskInput>>(yamlText);
-        var task = TaskBuilder.BuildTask(taskInputs[0]);
-        AddTasks([task]);
+        AddTasks([tasks.First()]);
     }
 
     public static void RemoveTasks(string parentFolderName)
