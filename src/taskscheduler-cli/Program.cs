@@ -12,7 +12,7 @@ class Program
         // Console.ReadLine();
     }
 
-    public static IEnumerable<TaskDefinition> BuildTasks(string yamlPath)
+    public static List<TaskDefinition> BuildTasks(string yamlPath)
     {
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(UnderscoredNamingConvention.Instance)
@@ -20,6 +20,6 @@ class Program
         var yamlText = File.ReadAllText(yamlPath);
         var taskInputs = deserializer.Deserialize<List<TaskInput>>(yamlText);
 
-        return taskInputs.Select(taskInput => TaskBuilder.BuildTask(taskInput));
+        return taskInputs.Select(TaskBuilder.BuildTask).ToList();
     }
 }

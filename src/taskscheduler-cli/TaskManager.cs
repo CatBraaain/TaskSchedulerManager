@@ -2,10 +2,10 @@ using Microsoft.Win32.TaskScheduler;
 
 public class TaskSchedulerManager
 {
-    public static void SyncTasks(IEnumerable<TaskDefinition> tasks, string parentFolderName)
+    public static void SyncTasks(List<TaskDefinition> tasks, string parentFolderName)
     {
         RemoveTasks(parentFolderName);
-        AddTasks([tasks.First()]);
+        AddTasks([tasks[0]]);
     }
 
     public static void RemoveTasks(string parentFolderName)
