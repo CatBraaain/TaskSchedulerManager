@@ -9,6 +9,7 @@ public class TaskBuilder
 
         task.Actions.AddRange(BuildActions(taskInput));
         task.Triggers.AddRange(BuildTriggers(taskInput));
+        SetSettings(task, taskInput);
 
         return task;
     }
@@ -46,5 +47,17 @@ public class TaskBuilder
                 _ => throw new ArgumentException($"Unknown trigger type: {triggerInput.Type}"),
             }
         );
+    }
+
+    private static void SetSettings(TaskDefinition task, TaskInput taskInput)
+    {
+        task.Principal.RunLevel = (TaskRunLevel)(taskInput.Settings?.RunLevel ?? 0);
+        task.Principal.LogonType = !string.IsNullOrEmpty(taskInput.Settings?.LogonType)
+            ? Enum.Parse<TaskLogonType>(taskInput.Settings.LogonType, ignoreCase: true)
+            : TaskLogonType.InteractiveToken;
+
+        task.Settings.StartWhenAvailable = true;
+        task.Settings.DisallowStartIfOnBatteries = false;
+        task.Settings.StopIfGoingOnBatteries = false;
     }
 }
