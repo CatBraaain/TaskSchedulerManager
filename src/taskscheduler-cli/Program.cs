@@ -14,6 +14,6 @@ class Program
         PrivilegeManager.EnsureAsAdmin(args);
 
         TaskSchedulerManager.RemoveTasks("MyTasks");
-        Console.ReadLine();
+        // Console.ReadLine();
     }
 }
