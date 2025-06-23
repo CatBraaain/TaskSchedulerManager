@@ -6,7 +6,7 @@ class Program
     static void Main(string[] args)
     {
         var deserializer = new DeserializerBuilder()
-            .WithNamingConvention(CamelCaseNamingConvention.Instance)
+            .WithNamingConvention(UnderscoredNamingConvention.Instance)
             .Build();
         var yamlText = File.ReadAllText("tasks.yaml");
         var tasks = deserializer.Deserialize<List<TaskInput>>(yamlText);
