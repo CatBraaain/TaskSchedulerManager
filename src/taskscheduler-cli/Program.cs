@@ -9,7 +9,7 @@ class Program
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
             .Build();
         var yamlText = File.ReadAllText("tasks.yaml");
-        var tasks = deserializer.Deserialize<List<Task>>(yamlText);
+        var tasks = deserializer.Deserialize<List<TaskInput>>(yamlText);
 
         if (!PrivilegeManager.IsAdmin)
         {
