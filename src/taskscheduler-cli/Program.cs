@@ -6,7 +6,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        PrivilegeManager.EnsureAsAdmin(args);
+        // PrivilegeManager.EnsureAsAdmin(args);
         var tasks = BuildTasks("tasks.yaml");
         TaskSchedulerManager.SyncTasks(tasks, "MyTasks");
         // Console.ReadLine();
