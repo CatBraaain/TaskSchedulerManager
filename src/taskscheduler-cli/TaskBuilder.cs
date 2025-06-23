@@ -3,16 +3,9 @@ using TaskAction = Microsoft.Win32.TaskScheduler.Action;
 
 public class TaskBuilder
 {
-    private TaskService _taskService;
-
-    public TaskBuilder(TaskService taskService)
+    public static TaskDefinition BuildTask(TaskInput taskInput)
     {
-        _taskService = taskService;
-    }
-
-    public TaskDefinition BuildTask(TaskInput taskInput)
-    {
-        var task = _taskService.NewTask();
+        var task = TaskService.Instance.NewTask();
 
         task.Actions.AddRange(BuildActions(taskInput));
         task.Triggers.AddRange(BuildTriggers(taskInput));
@@ -20,7 +13,7 @@ public class TaskBuilder
         return task;
     }
 
-    private IEnumerable<TaskAction> BuildActions(TaskInput taskInput)
+    private static IEnumerable<TaskAction> BuildActions(TaskInput taskInput)
     {
         return taskInput.Actions.Select(actionInput => new ExecAction(
             actionInput.Command,
@@ -29,7 +22,7 @@ public class TaskBuilder
         ));
     }
 
-    private IEnumerable<Trigger> BuildTriggers(TaskInput taskInput)
+    private static IEnumerable<Trigger> BuildTriggers(TaskInput taskInput)
     {
         return taskInput.Triggers.SelectMany(triggerInput =>
             triggerInput.Type switch

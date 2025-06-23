@@ -8,21 +8,18 @@ public class TaskSchedulerManager
     {
         RemoveTasks(parentFolderName);
 
-        using var taskService = new TaskService();
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(UnderscoredNamingConvention.Instance)
             .Build();
         var yamlText = File.ReadAllText("tasks.yaml");
         var taskInputs = deserializer.Deserialize<List<TaskInput>>(yamlText);
-        var taskBuilder = new TaskBuilder(taskService);
-        var task = taskBuilder.BuildTask(taskInputs[0]);
+        var task = TaskBuilder.BuildTask(taskInputs[0]);
         AddTasks([task]);
     }
 
     public static void RemoveTasks(string parentFolderName)
     {
-        using var taskService = new TaskService();
-        var parentFolder = taskService.GetFolder(parentFolderName);
+        var parentFolder = TaskService.Instance.GetFolder(parentFolderName);
 
         var folders = parentFolder
             .EnumerateFolders(null)
@@ -36,15 +33,14 @@ public class TaskSchedulerManager
                 folder.DeleteTask(task.Name);
             }
 
-            var parent = folder.Parent ?? taskService.RootFolder;
+            var parent = folder.Parent ?? TaskService.Instance.RootFolder;
             parent.DeleteFolder(folder.Name);
         }
     }
 
     public static void AddTasks(List<TaskDefinition> tasks)
     {
-        using var taskService = new TaskService();
-        taskService.RootFolder.RegisterTaskDefinition(
+        TaskService.Instance.RootFolder.RegisterTaskDefinition(
             "MyTasks\\test",
             tasks[0],
             TaskCreation.CreateOrUpdate,
