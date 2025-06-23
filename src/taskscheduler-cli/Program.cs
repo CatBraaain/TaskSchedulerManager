@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32.TaskScheduler;
-using YamlDotNet.Serialization;
+﻿using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
 class Program
@@ -9,7 +8,6 @@ class Program
         PrivilegeManager.EnsureAsAdmin(args); // need admin right for editing admin's task
         var taskDtos = BuildTaskDtos("tasks.yaml");
         TaskSchedulerManager.SyncTasks(taskDtos, "MyTasks");
-        // Console.ReadLine();
     }
 
     public static List<TaskDto> BuildTaskDtos(string yamlPath)
