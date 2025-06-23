@@ -2,10 +2,10 @@ using Microsoft.Win32.TaskScheduler;
 
 public class TaskSchedulerManager
 {
-    public static void SyncTasks(List<TaskDefinition> tasks, string parentFolderName)
+    public static void SyncTasks(List<TaskDto> taskDtos, string parentFolderName)
     {
         RemoveTasks(parentFolderName);
-        AddTasks([tasks[0]]);
+        AddTasks(taskDtos);
     }
 
     public static void RemoveTasks(string parentFolderName)
@@ -24,11 +24,11 @@ public class TaskSchedulerManager
         );
     }
 
-    public static void AddTasks(List<TaskDefinition> tasks)
+    public static void AddTasks(List<TaskDto> taskDtos)
     {
         TaskService.Instance.RootFolder.RegisterTaskDefinition(
             "MyTasks\\test",
-            tasks[0],
+            taskDtos[0].Definition,
             TaskCreation.CreateOrUpdate,
             null,
             null,

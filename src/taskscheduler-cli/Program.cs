@@ -7,12 +7,12 @@ class Program
     static void Main(string[] args)
     {
         // PrivilegeManager.EnsureAsAdmin(args);
-        var tasks = BuildTasks("tasks.yaml");
-        TaskSchedulerManager.SyncTasks(tasks, "MyTasks");
+        var taskDtos = BuildTaskDtos("tasks.yaml");
+        TaskSchedulerManager.SyncTasks(taskDtos, "MyTasks");
         // Console.ReadLine();
     }
 
-    public static List<TaskDefinition> BuildTasks(string yamlPath)
+    public static List<TaskDto> BuildTaskDtos(string yamlPath)
     {
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(UnderscoredNamingConvention.Instance)
@@ -20,6 +20,8 @@ class Program
         var yamlText = File.ReadAllText(yamlPath);
         var taskInputs = deserializer.Deserialize<List<TaskInput>>(yamlText);
 
-        return taskInputs.Select(TaskBuilder.BuildTask).ToList();
+        return taskInputs
+            .Select(input => new TaskDto(input, TaskBuilder.BuildTask(input)))
+            .ToList();
     }
 }
