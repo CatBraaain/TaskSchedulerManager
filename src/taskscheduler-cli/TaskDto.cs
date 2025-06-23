@@ -10,4 +10,6 @@ public class TaskDto
         Input = input;
         Definition = definition;
     }
+
+    public string TaskPath => $@"MyTasks\{Input.Triggers[0].Type}\{Input.Name}";
 }

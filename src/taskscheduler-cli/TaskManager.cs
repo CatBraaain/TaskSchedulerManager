@@ -27,7 +27,7 @@ public class TaskSchedulerManager
     public static void AddTasks(List<TaskDto> taskDtos)
     {
         TaskService.Instance.RootFolder.RegisterTaskDefinition(
-            "MyTasks\\test",
+            taskDtos[0].TaskPath,
             taskDtos[0].Definition,
             TaskCreation.CreateOrUpdate,
             null,
