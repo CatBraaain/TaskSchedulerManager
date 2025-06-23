@@ -26,14 +26,16 @@ public class TaskSchedulerManager
 
     public static void AddTasks(List<TaskDto> taskDtos)
     {
-        TaskService.Instance.RootFolder.RegisterTaskDefinition(
-            taskDtos[0].TaskPath,
-            taskDtos[0].Definition,
-            TaskCreation.CreateOrUpdate,
-            null,
-            null,
-            taskDtos[0].Definition.Principal.LogonType,
-            null
+        taskDtos.ForEach(taskDto =>
+            TaskService.Instance.RootFolder.RegisterTaskDefinition(
+                taskDto.TaskPath,
+                taskDto.Definition,
+                TaskCreation.CreateOrUpdate,
+                null,
+                null,
+                taskDto.Definition.Principal.LogonType,
+                null
+            )
         );
     }
 }
