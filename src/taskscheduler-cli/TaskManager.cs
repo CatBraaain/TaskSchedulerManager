@@ -32,8 +32,7 @@ public class TaskSchedulerManager
             TaskCreation.CreateOrUpdate,
             null,
             null,
-            // task.Principal.LogonType,
-            TaskLogonType.InteractiveToken,
+            taskDtos[0].Definition.Principal.LogonType,
             null
         );
     }
