@@ -6,3 +6,5 @@ var deserializer = new DeserializerBuilder()
     .Build();
 var yamlText = File.ReadAllText("tasks.yaml");
 var tasks = deserializer.Deserialize<List<Task>>(yamlText);
+
+TaskSchedulerManager.RemoveTasks("MyTasks");
