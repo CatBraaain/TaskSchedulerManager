@@ -9,7 +9,7 @@ class Program
             .WithNamingConvention(UnderscoredNamingConvention.Instance)
             .Build();
         var yamlText = File.ReadAllText("tasks.yaml");
-        var tasks = deserializer.Deserialize<List<TaskInput>>(yamlText);
+        var taskInputs = deserializer.Deserialize<List<TaskInput>>(yamlText);
 
         PrivilegeManager.EnsureAsAdmin(args);
 
