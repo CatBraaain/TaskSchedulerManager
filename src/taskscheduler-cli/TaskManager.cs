@@ -12,21 +12,16 @@ public class TaskSchedulerManager
     {
         var parentFolder = TaskService.Instance.GetFolder(parentFolderName);
 
+        var tasks = parentFolder.EnumerateTasks(null, true).ToList();
+        tasks.ForEach(task => task.Folder.DeleteTask(task.Name));
+
         var folders = parentFolder
             .EnumerateFolders(null)
             .OrderByDescending(f => f.Path, StringComparer.Ordinal)
             .ToList();
-
-        foreach (var folder in folders)
-        {
-            foreach (var task in folder.EnumerateTasks(null, false))
-            {
-                folder.DeleteTask(task.Name);
-            }
-
-            var parent = folder.Parent ?? TaskService.Instance.RootFolder;
-            parent.DeleteFolder(folder.Name);
-        }
+        folders.ForEach(folder =>
+            (folder.Parent ?? TaskService.Instance.RootFolder).DeleteFolder(folder.Name)
+        );
     }
 
     public static void AddTasks(List<TaskDefinition> tasks)
