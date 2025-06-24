@@ -1,7 +1,4 @@
-﻿using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
-
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
