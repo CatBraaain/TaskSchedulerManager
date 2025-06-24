@@ -10,16 +10,16 @@ public class TaskSchedulerManager
 
     public static void RemoveTasks(string parentFolderName)
     {
-        var parentFolder = TaskService.Instance.GetFolder(parentFolderName);
-        if (parentFolder == null)
+        var targetFolder = TaskService.Instance.GetFolder(parentFolderName);
+        if (targetFolder == null)
         {
             return;
         }
 
-        var tasks = parentFolder.EnumerateTasks(null, true).ToList();
+        var tasks = targetFolder.EnumerateTasks(null, true).ToList();
         tasks.ForEach(task => task.Folder.DeleteTask(task.Name));
 
-        var folders = parentFolder
+        var folders = targetFolder
             .EnumerateFolders(null)
             .OrderByDescending(f => f.Path, StringComparer.Ordinal)
             .ToList();
