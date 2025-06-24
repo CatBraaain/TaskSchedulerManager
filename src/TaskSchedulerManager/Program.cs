@@ -6,7 +6,8 @@ public class CLI
 {
     public record GlobalParameters(
         [Option("path", Description = "yaml file path to read")] string Path = "tasks.yaml",
-        [Option("mount", Description = "task folder path to mount")] string Mount = "MyTasks"
+        [Option("mount", Description = "task folder path to mount")]
+            string Mount = "TaskSchedulerManager"
     ) : ICommandParameterSet;
 
     public void Apply(GlobalParameters globalParams)
