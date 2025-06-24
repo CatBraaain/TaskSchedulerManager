@@ -29,7 +29,15 @@ public static class PrivilegeManager
             FileName = Process.GetCurrentProcess().MainModule!.FileName!,
             Verb = "runas",
             UseShellExecute = true,
-            Arguments = Environment.GetCommandLineArgs().Skip(1).Aggregate((a, b) => a + " " + b),
+            Arguments = Environment
+                .GetCommandLineArgs()
+                .Skip(1)
+                .Select(s =>
+                    s.Contains(' ') || s.Contains('"') || s.Contains('\\')
+                        ? $"\"{s.Replace("\"", "\\\"")}\""
+                        : s
+                )
+                .Aggregate((a, b) => a + " " + b),
         };
 
         try
