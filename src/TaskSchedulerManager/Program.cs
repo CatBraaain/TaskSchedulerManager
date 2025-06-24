@@ -13,7 +13,11 @@ public class CLI
     public void Apply(GlobalParameters globalParams)
     {
         PrivilegeManager.EnsureAsAdmin(); // need admin right for editing admin's task
-        var taskDtos = TaskDto.BuildTaskDtos(globalParams.Path);
+
+        var taskInputs = YamlReader.ReadYaml(globalParams.Path);
+        var taskDtos = taskInputs
+            .Select(input => new TaskDto(input, TaskBuilder.BuildTask(input)))
+            .ToList();
         TaskSchedulerManager.ApplyTasks(taskDtos, globalParams.Mount);
     }
 
