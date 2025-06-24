@@ -2,7 +2,7 @@ using Microsoft.Win32.TaskScheduler;
 
 public class TaskSchedulerManager
 {
-    public static void SyncTasks(List<TaskDto> taskDtos, string parentFolderName)
+    public static void ApplyTasks(List<TaskDto> taskDtos, string parentFolderName)
     {
         RemoveTasks(parentFolderName);
         AddTasks(taskDtos);
