@@ -21,7 +21,7 @@ public class TaskDto
             .WithNamingConvention(UnderscoredNamingConvention.Instance)
             .Build();
         var yamlText = File.ReadAllText(yamlPath);
-        var taskInputs = deserializer.Deserialize<List<TaskInput>>(yamlText);
+        var taskInputs = deserializer.Deserialize<List<TaskInput>>(yamlText) ?? [];
 
         return taskInputs
             .Select(input => new TaskDto(input, TaskBuilder.BuildTask(input)))
