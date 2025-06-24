@@ -11,6 +11,10 @@ public class TaskSchedulerManager
     public static void RemoveTasks(string parentFolderName)
     {
         var parentFolder = TaskService.Instance.GetFolder(parentFolderName);
+        if (parentFolder == null)
+        {
+            return;
+        }
 
         var tasks = parentFolder.EnumerateTasks(null, true).ToList();
         tasks.ForEach(task => task.Folder.DeleteTask(task.Name));
