@@ -1,9 +1,25 @@
-﻿class Program
+﻿using Cocona;
+
+CoconaApp.Run<CLI>();
+
+public class CLI
 {
-    static void Main(string[] args)
+    public record GlobalParameters(
+        [Option("path", Description = "yaml file path to read")] string Path = "tasks.yaml",
+        [Option("mount", Description = "task folder path to mount")] string Mount = "MyTasks"
+    ) : ICommandParameterSet;
+
+    public void Apply(GlobalParameters globalParams)
     {
-        PrivilegeManager.EnsureAsAdmin(args); // need admin right for editing admin's task
-        var taskDtos = TaskDto.BuildTaskDtos("tasks.yaml");
-        TaskSchedulerManager.SyncTasks(taskDtos, "MyTasks");
+        PrivilegeManager.EnsureAsAdmin(
+            [$"--path {globalParams.Path} --mount {globalParams.Mount}"]
+        ); // need admin right for editing admin's task
+        var taskDtos = TaskDto.BuildTaskDtos(globalParams.Path);
+        TaskSchedulerManager.SyncTasks(taskDtos, globalParams.Mount);
+    }
+
+    public void Diff(GlobalParameters globalParams)
+    {
+        Console.WriteLine("diff command not supported yet");
     }
 }
