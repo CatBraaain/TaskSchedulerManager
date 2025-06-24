@@ -3,11 +3,11 @@ using System.Security.Principal;
 
 public static class PrivilegeManager
 {
-    public static void EnsureAsAdmin(string[]? args = null)
+    public static void EnsureAsAdmin()
     {
         if (!IsAdmin)
         {
-            RunAsAdmin(args);
+            RunAsAdmin();
             Environment.Exit(0);
         }
     }
@@ -22,14 +22,14 @@ public static class PrivilegeManager
         }
     }
 
-    public static void RunAsAdmin(string[]? args = null)
+    public static void RunAsAdmin()
     {
         var psi = new ProcessStartInfo
         {
             FileName = Process.GetCurrentProcess().MainModule!.FileName!,
             Verb = "runas",
             UseShellExecute = true,
-            Arguments = args is null ? "" : string.Join(" ", args),
+            Arguments = Environment.GetCommandLineArgs().Skip(1).Aggregate((a, b) => a + " " + b),
         };
 
         try

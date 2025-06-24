@@ -11,9 +11,7 @@ public class CLI
 
     public void Apply(GlobalParameters globalParams)
     {
-        PrivilegeManager.EnsureAsAdmin(
-            [$"--path {globalParams.Path} --mount {globalParams.Mount}"]
-        ); // need admin right for editing admin's task
+        PrivilegeManager.EnsureAsAdmin(); // need admin right for editing admin's task
         var taskDtos = TaskDto.BuildTaskDtos(globalParams.Path);
         TaskSchedulerManager.SyncTasks(taskDtos, globalParams.Mount);
     }
