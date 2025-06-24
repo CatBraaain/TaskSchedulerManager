@@ -16,7 +16,7 @@ public class CLI
 
         var taskInputs = YamlReader.ReadYaml(globalParams.Path);
         var taskDtos = taskInputs
-            .Select(input => new TaskDto(input, TaskBuilder.BuildTask(input)))
+            .Select(input => new TaskDto(input, TaskBuilder.BuildTask(input), globalParams.Mount))
             .ToList();
         TaskSchedulerManager.ApplyTasks(taskDtos, globalParams.Mount);
     }
