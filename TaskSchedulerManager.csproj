@@ -10,6 +10,12 @@
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
   </PropertyGroup>
+  <Target Name="RenameBin" AfterTargets="Publish">
+    <Move
+      SourceFiles="$(PublishDir)$(AssemblyName).exe"
+      DestinationFiles="$(PublishDir)taskscheduler.exe"
+    />
+  </Target>
   <ItemGroup>
     <PackageReference Include="Cocona" Version="2.2.0" />
     <PackageReference Include="TaskScheduler" Version="2.12.1" />
